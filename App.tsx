@@ -1,15 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>This is kuman514's React Native app!</Text>
-      <Text>Open up App.tsx to start working on!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import * as ImagePicker from 'expo-image-picker';
+import { useState } from 'react';
+import { StyleSheet, Button, Image, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,3 +10,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default function App() {
+  const [imageURI, setImageURI] = useState<string | null>(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageURI(result.assets[0].uri);
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Button title="Pick an image from camera roll" onPress={pickImage} />
+      {imageURI && (
+        <Image source={{ uri: imageURI }} style={{ width: 200, height: 200 }} />
+      )}
+    </View>
+  );
+}
