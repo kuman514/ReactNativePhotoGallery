@@ -2,6 +2,15 @@ import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
 import { StyleSheet, Image, View, Text } from 'react-native';
 
+/**
+ * TODOS for ImageViewer
+ * - Move code to a separate TypeScript component file
+ * - Make a control panel for the image viewer
+ * - Implement image resizing
+ * - Implement image move
+ * - Implement image rotation
+ */
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
