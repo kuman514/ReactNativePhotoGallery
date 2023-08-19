@@ -1,10 +1,11 @@
+import ImageContainer from 'components/atoms/ImageContainer';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
-import { StyleSheet, Image, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 /**
  * TODOS for ImageViewer
- * - Move code to a separate TypeScript component file
+ * - Move code to a separate TypeScript component file (completed)
  * - Make a control panel for the image viewer
  * - Implement image resizing
  * - Implement image move
@@ -21,11 +22,11 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const [imageURI, setImageURI] = useState<string | null>(null);
+  const [imageURI, setImageURI] = useState<string | undefined>(undefined);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
 
@@ -36,14 +37,7 @@ export default function App() {
 
   return (
     <View style={styles.container} onTouchEnd={pickImage}>
-      {imageURI ? (
-        <Image
-          source={{ uri: imageURI }}
-          style={{ width: '100%', height: '100%', resizeMode: 'contain' }}
-        />
-      ) : (
-        <Text>Touch the screen to pick an image.</Text>
-      )}
+      <ImageContainer imageURI={imageURI} />
     </View>
   );
 }
