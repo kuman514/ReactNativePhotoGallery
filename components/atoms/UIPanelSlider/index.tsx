@@ -5,9 +5,13 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     flex: 1,
-    padding: 30,
-    backgroundColor: '#fff',
     justifyContent: 'center',
+    color: 'white',
+    rowGap: 6,
+  },
+  text: {
+    color: 'white',
+    fontSize: 14,
   },
   slider: {
     width: '100%',
@@ -16,6 +20,7 @@ const styles = StyleSheet.create({
 
 interface Props {
   label: string;
+  unit?: string;
   value: number;
   minimum: number;
   maximum: number;
@@ -24,6 +29,7 @@ interface Props {
 
 export default function UIPanelSlider({
   label,
+  unit,
   value,
   minimum,
   maximum,
@@ -31,8 +37,9 @@ export default function UIPanelSlider({
 }: Props) {
   return (
     <View style={styles.container}>
-      <Text>
+      <Text style={styles.text}>
         {label}: {Math.floor(value)}
+        {unit}
       </Text>
       <Slider
         style={styles.slider}
