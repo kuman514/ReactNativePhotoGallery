@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
+  isShowControlPanel: boolean;
   zoomValue: number;
   rotateValue: number;
   xPosValue: number;
@@ -39,6 +40,7 @@ interface Props {
 }
 
 export default function ControlPanelOverlay({
+  isShowControlPanel,
   zoomValue,
   rotateValue,
   xPosValue,
@@ -49,9 +51,26 @@ export default function ControlPanelOverlay({
   onYPosChange,
 }: Props) {
   return (
-    <View style={styles.container}>
-      <View style={styles.upperPart} />
-      <View style={styles.underPart}>
+    <View
+      style={{
+        ...styles.container,
+        display: isShowControlPanel ? 'flex' : 'none',
+      }}
+    >
+      <View
+        style={styles.upperPart}
+        onStartShouldSetResponder={() => true}
+        onTouchEnd={(event) => {
+          event.stopPropagation();
+        }}
+      />
+      <View
+        style={styles.underPart}
+        onStartShouldSetResponder={() => true}
+        onTouchEnd={(event) => {
+          event.stopPropagation();
+        }}
+      >
         <UIPanelSlider
           label="Zoom"
           unit="%"
