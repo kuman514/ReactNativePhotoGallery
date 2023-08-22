@@ -9,8 +9,8 @@ import { StyleSheet, View } from 'react-native';
  * - Move code to a separate TypeScript component file (completed)
  * - Make a control panel for the image viewer (completed)
  * - Implement image resizing (completed)
- * - Implement image move (completed)
  * - Implement image rotation (completed)
+ * - Implement image move
  * - Implement loading another image
  * - Add touch interactions for resizing, move, and roation
  */
