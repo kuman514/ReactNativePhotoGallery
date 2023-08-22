@@ -24,6 +24,6 @@ export default function ImageContainer({ imageURI, zoom, rotate }: Props) {
       }}
     />
   ) : (
-    <Text style={styles.emptyText}>No image loaded yet.</Text>
+    <Text style={styles.emptyText}>Touch to load an image.</Text>
   );
 }
