@@ -13,6 +13,8 @@ import { StyleSheet, View } from 'react-native';
  * - Implement image move
  * - Implement loading another image
  * - Add touch interactions for resizing, move, and roation
+ * - Make consistent color code style
+ * - Support landscape
  */
 
 const styles = StyleSheet.create({
