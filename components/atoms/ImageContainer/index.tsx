@@ -1,4 +1,10 @@
-import { Image, Text } from 'react-native';
+import { Image, Text, StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  emptyText: {
+    color: '#ffffff',
+  },
+});
 
 interface Props {
   zoom: number;
@@ -18,6 +24,6 @@ export default function ImageContainer({ imageURI, zoom, rotate }: Props) {
       }}
     />
   ) : (
-    <Text>No image loaded yet.</Text>
+    <Text style={styles.emptyText}>No image loaded yet.</Text>
   );
 }
