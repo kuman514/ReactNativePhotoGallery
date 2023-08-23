@@ -10,7 +10,7 @@ import { StyleSheet, View } from 'react-native';
  * - Make a control panel for the image viewer (completed)
  * - Implement image resizing (completed)
  * - Implement image rotation (completed)
- * - Implement image move
+ * - Implement image move (completed)
  * - Implement loading another image
  * - Add touch interactions for resizing, move, and roation
  * - Make consistent color code style
@@ -61,6 +61,8 @@ export default function App() {
         imageURI={imageURI}
         zoom={zoomValue}
         rotate={rotateValue}
+        xPosPercentage={xPosValue}
+        yPosPercentage={yPosValue}
       />
       <ControlPanelOverlay
         isShowControlPanel={isShowControlPanel}

@@ -1,4 +1,4 @@
-import { Image, Text, StyleSheet } from 'react-native';
+import { Image, Text, StyleSheet, useWindowDimensions } from 'react-native';
 
 const styles = StyleSheet.create({
   emptyText: {
@@ -9,10 +9,19 @@ const styles = StyleSheet.create({
 interface Props {
   zoom: number;
   rotate: number;
+  xPosPercentage: number;
+  yPosPercentage: number;
   imageURI?: string;
 }
 
-export default function ImageContainer({ imageURI, zoom, rotate }: Props) {
+export default function ImageContainer({
+  imageURI,
+  zoom,
+  rotate,
+  xPosPercentage,
+  yPosPercentage,
+}: Props) {
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   return imageURI !== undefined ? (
     <Image
       source={{ uri: imageURI }}
@@ -20,7 +29,12 @@ export default function ImageContainer({ imageURI, zoom, rotate }: Props) {
         width: '100%',
         height: '100%',
         resizeMode: 'contain',
-        transform: [{ scale: zoom / 100 }, { rotate: `${rotate}deg` }],
+        transform: [
+          { scale: zoom / 100 },
+          { rotate: `${rotate}deg` },
+          { translateX: (xPosPercentage / 100) * windowWidth },
+          { translateY: (yPosPercentage / 100) * windowHeight },
+        ],
       }}
     />
   ) : (
