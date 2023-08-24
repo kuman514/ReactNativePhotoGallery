@@ -14,6 +14,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
   emptyText: {
     color: '#ffffff',
   },
@@ -52,9 +57,7 @@ export default function ImageContainer({
       <Image
         source={{ uri: imageURI }}
         style={{
-          width: '100%',
-          height: '100%',
-          resizeMode: 'contain',
+          ...styles.image,
           transform: [{ scale: zoom / 100 }, { rotate: `${rotate}deg` }],
         }}
       />
