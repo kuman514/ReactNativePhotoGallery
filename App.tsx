@@ -33,6 +33,15 @@ export default function App() {
     }
   };
 
+  const resetImage = () => {
+    setIsShowControlPanel(!isShowControlPanel);
+    setZoomValue(100);
+    setRotateValue(0);
+    setXPosValue(0);
+    setYPosValue(0);
+    setImageURI(undefined);
+  };
+
   return (
     <View
       style={styles.container}
@@ -61,6 +70,7 @@ export default function App() {
         onRotateChange={setRotateValue}
         onXPosChange={setXPosValue}
         onYPosChange={setYPosValue}
+        onReturn={resetImage}
       />
     </View>
   );

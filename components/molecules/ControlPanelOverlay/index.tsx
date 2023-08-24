@@ -1,5 +1,5 @@
 import UIPanelSlider from 'components/atoms/UIPanelSlider';
-import { StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,6 +16,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
     width: '100%',
     paddingHorizontal: 50,
+    flex: 0.125,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-start',
   },
   underPart: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
@@ -37,6 +40,7 @@ interface Props {
   onRotateChange(newRotateValue: number): void;
   onXPosChange(newXPosValue: number): void;
   onYPosChange(newYPosValue: number): void;
+  onReturn(): void;
 }
 
 export default function ControlPanelOverlay({
@@ -49,6 +53,7 @@ export default function ControlPanelOverlay({
   onRotateChange,
   onXPosChange,
   onYPosChange,
+  onReturn,
 }: Props) {
   return (
     <View
@@ -63,7 +68,9 @@ export default function ControlPanelOverlay({
         onTouchEnd={(event) => {
           event.stopPropagation();
         }}
-      />
+      >
+        <Button title="Return" onPress={onReturn} />
+      </View>
       <View
         style={styles.underPart}
         onStartShouldSetResponder={() => true}
