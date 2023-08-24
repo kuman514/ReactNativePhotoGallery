@@ -1,6 +1,19 @@
-import { Image, Text, StyleSheet, useWindowDimensions } from 'react-native';
+import {
+  Image,
+  Text,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 
 const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   emptyText: {
     color: '#ffffff',
   },
@@ -23,20 +36,29 @@ export default function ImageContainer({
 }: Props) {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   return imageURI !== undefined ? (
-    <Image
-      source={{ uri: imageURI }}
+    <View
       style={{
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
+        ...styles.container,
         transform: [
-          { scale: zoom / 100 },
-          { rotate: `${rotate}deg` },
-          { translateX: (xPosPercentage / 100) * windowWidth },
-          { translateY: (yPosPercentage / 100) * windowHeight },
+          {
+            translateX: (xPosPercentage / 100) * windowWidth,
+          },
+          {
+            translateY: (yPosPercentage / 100) * windowHeight,
+          },
         ],
       }}
-    />
+    >
+      <Image
+        source={{ uri: imageURI }}
+        style={{
+          width: '100%',
+          height: '100%',
+          resizeMode: 'contain',
+          transform: [{ scale: zoom / 100 }, { rotate: `${rotate}deg` }],
+        }}
+      />
+    </View>
   ) : (
     <Text style={styles.emptyText}>Touch to load an image.</Text>
   );
