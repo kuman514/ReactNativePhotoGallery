@@ -1,5 +1,6 @@
-import UIPanelSlider from 'components/atoms/UIPanelSlider';
 import { Button, StyleSheet, View } from 'react-native';
+
+import UIPanelSlider from '^/components/atoms/UIPanelSlider';
 
 const styles = StyleSheet.create({
   container: {
