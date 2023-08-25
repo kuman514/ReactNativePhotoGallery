@@ -41,7 +41,7 @@ interface Props {
   onRotateChange(newRotateValue: number): void;
   onXPosChange(newXPosValue: number): void;
   onYPosChange(newYPosValue: number): void;
-  onReturn(): void;
+  onLoadAnotherImage(): void;
 }
 
 export default function ControlPanelOverlay({
@@ -54,7 +54,7 @@ export default function ControlPanelOverlay({
   onRotateChange,
   onXPosChange,
   onYPosChange,
-  onReturn,
+  onLoadAnotherImage,
 }: Props) {
   return (
     <View
@@ -70,7 +70,7 @@ export default function ControlPanelOverlay({
           event.stopPropagation();
         }}
       >
-        <Button title="Return" onPress={onReturn} />
+        <Button title="Another Image" onPress={onLoadAnotherImage} />
       </View>
       <View
         style={styles.underPart}

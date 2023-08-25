@@ -29,24 +29,33 @@ export default function App() {
   const [xPosValue, setXPosValue] = useState<number>(INIT_X_POS_VALUE);
   const [yPosValue, setYPosValue] = useState<number>(INIT_Y_POS_VALUE);
 
-  const pickImage = async () => {
+  const pickAndGetImageURI = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
 
     if (!result.canceled) {
-      setImageURI(result.assets[0].uri);
+      return result.assets[0].uri;
     }
   };
 
-  const resetImage = () => {
+  const pickImage = async () => {
+    setImageURI(await pickAndGetImageURI());
+  };
+
+  const loadAnotherImage = async () => {
+    const imageURI = await pickAndGetImageURI();
+    if (imageURI === undefined) {
+      return;
+    }
+
     setIsShowControlPanel(!isShowControlPanel);
     setZoomValue(INIT_ZOOM_VALUE);
     setRotateValue(INIT_ROTATE_VALUE);
     setXPosValue(INIT_X_POS_VALUE);
     setYPosValue(INIT_Y_POS_VALUE);
-    setImageURI(undefined);
+    setImageURI(imageURI);
   };
 
   return (
@@ -77,7 +86,7 @@ export default function App() {
         onRotateChange={setRotateValue}
         onXPosChange={setXPosValue}
         onYPosChange={setYPosValue}
-        onReturn={resetImage}
+        onLoadAnotherImage={loadAnotherImage}
       />
     </View>
   );
