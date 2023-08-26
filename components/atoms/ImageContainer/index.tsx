@@ -1,10 +1,5 @@
-import {
-  Image,
-  Text,
-  StyleSheet,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import { useRef } from 'react';
+import { Image, Text, StyleSheet, PanResponder, Animated } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,31 +22,29 @@ const styles = StyleSheet.create({
 interface Props {
   zoom: number;
   rotate: number;
-  xPosPercentage: number;
-  yPosPercentage: number;
   imageURI?: string;
 }
 
-export default function ImageContainer({
-  imageURI,
-  zoom,
-  rotate,
-  xPosPercentage,
-  yPosPercentage,
-}: Props) {
-  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+export default function ImageContainer({ imageURI, zoom, rotate }: Props) {
+  const pan = useRef(new Animated.ValueXY()).current;
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: () => true,
+      onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], {
+        useNativeDriver: false,
+      }),
+      onPanResponderRelease: () => {
+        pan.extractOffset();
+      },
+    })
+  ).current;
+
   return imageURI !== undefined ? (
-    <View
+    <Animated.View
+      {...panResponder.panHandlers}
       style={{
         ...styles.container,
-        transform: [
-          {
-            translateX: (xPosPercentage / 100) * windowWidth,
-          },
-          {
-            translateY: (yPosPercentage / 100) * windowHeight,
-          },
-        ],
+        transform: [{ translateX: pan.x }, { translateY: pan.y }],
       }}
     >
       <Image
@@ -61,7 +54,7 @@ export default function ImageContainer({
           transform: [{ scale: zoom / 100 }, { rotate: `${rotate}deg` }],
         }}
       />
-    </View>
+    </Animated.View>
   ) : (
     <Text style={styles.emptyText}>Touch to load an image.</Text>
   );

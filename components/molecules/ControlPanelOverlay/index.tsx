@@ -35,12 +35,8 @@ interface Props {
   isShowControlPanel: boolean;
   zoomValue: number;
   rotateValue: number;
-  xPosValue: number;
-  yPosValue: number;
   onZoomChange(newZoomValue: number): void;
   onRotateChange(newRotateValue: number): void;
-  onXPosChange(newXPosValue: number): void;
-  onYPosChange(newYPosValue: number): void;
   onLoadAnotherImage(): void;
 }
 
@@ -48,12 +44,8 @@ export default function ControlPanelOverlay({
   isShowControlPanel,
   zoomValue,
   rotateValue,
-  xPosValue,
-  yPosValue,
   onZoomChange,
   onRotateChange,
-  onXPosChange,
-  onYPosChange,
   onLoadAnotherImage,
 }: Props) {
   return (
@@ -93,22 +85,6 @@ export default function ControlPanelOverlay({
           minimum={0}
           maximum={360}
           onValueChange={onRotateChange}
-        />
-        <UIPanelSlider
-          label="X Position"
-          unit="%"
-          value={xPosValue}
-          minimum={-100}
-          maximum={100}
-          onValueChange={onXPosChange}
-        />
-        <UIPanelSlider
-          label="Y Position"
-          unit="%"
-          value={yPosValue}
-          minimum={-100}
-          maximum={100}
-          onValueChange={onYPosChange}
         />
       </View>
     </View>
