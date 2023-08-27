@@ -30,9 +30,13 @@ export default function ImageContainer({ imageURI, zoom, rotate }: Props) {
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], {
-        useNativeDriver: false,
-      }),
+      onMoveShouldSetPanResponderCapture: () => true,
+      onPanResponderMove: (_, gestureState) => {
+        pan.setValue({
+          x: gestureState.dx,
+          y: gestureState.dy,
+        });
+      },
       onPanResponderRelease: () => {
         pan.extractOffset();
       },
