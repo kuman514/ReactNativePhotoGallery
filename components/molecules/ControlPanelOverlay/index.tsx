@@ -26,25 +26,21 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 50,
     paddingVertical: 30,
-    flex: 0.4,
+    flex: 0.2,
     alignItems: 'center',
   },
 });
 
 interface Props {
   isShowControlPanel: boolean;
-  zoomValue: number;
   rotateValue: number;
-  onZoomChange(newZoomValue: number): void;
   onRotateChange(newRotateValue: number): void;
   onLoadAnotherImage(): void;
 }
 
 export default function ControlPanelOverlay({
   isShowControlPanel,
-  zoomValue,
   rotateValue,
-  onZoomChange,
   onRotateChange,
   onLoadAnotherImage,
 }: Props) {
@@ -71,14 +67,6 @@ export default function ControlPanelOverlay({
           event.stopPropagation();
         }}
       >
-        <UIPanelSlider
-          label="Zoom"
-          unit="%"
-          value={zoomValue}
-          minimum={30}
-          maximum={800}
-          onValueChange={onZoomChange}
-        />
         <UIPanelSlider
           label="Rotate"
           value={rotateValue}

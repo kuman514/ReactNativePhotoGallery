@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Image, Text, StyleSheet, PanResponder, Animated } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -20,22 +20,52 @@ const styles = StyleSheet.create({
 });
 
 interface Props {
-  zoom: number;
   rotate: number;
   imageURI?: string;
 }
 
-export default function ImageContainer({ imageURI, zoom, rotate }: Props) {
+export default function ImageContainer({ imageURI, rotate }: Props) {
   const pan = useRef(new Animated.ValueXY()).current;
+  const [zoom, setZoom] = useState<number>(100);
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
-      onPanResponderMove: (_, gestureState) => {
-        pan.setValue({
-          x: gestureState.dx,
-          y: gestureState.dy,
-        });
+      onPanResponderMove: (event, { dx, dy, numberActiveTouches, vx, vy }) => {
+        switch (numberActiveTouches) {
+          case 1:
+            pan.setValue({
+              x: dx,
+              y: dy,
+            });
+            break;
+          case 2:
+            {
+              const left = Math.min(
+                event.nativeEvent.touches[0].pageX,
+                event.nativeEvent.touches[1].pageX
+              );
+              const right = Math.max(
+                event.nativeEvent.touches[0].pageX,
+                event.nativeEvent.touches[1].pageX
+              );
+              const top = Math.min(
+                event.nativeEvent.touches[0].pageY,
+                event.nativeEvent.touches[1].pageY
+              );
+              const bottom = Math.max(
+                event.nativeEvent.touches[0].pageY,
+                event.nativeEvent.touches[1].pageY
+              );
+              const dist = Math.sqrt(
+                right * right - left * left + bottom * bottom - top * top
+              );
+              setZoom(dist);
+            }
+            break;
+          default:
+            break;
+        }
       },
       onPanResponderRelease: () => {
         pan.extractOffset();

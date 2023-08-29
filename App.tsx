@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import ImageContainer from '^/components/atoms/ImageContainer';
 import ControlPanelOverlay from '^/components/molecules/ControlPanelOverlay';
-import { INIT_ZOOM_VALUE, INIT_ROTATE_VALUE } from '^/constants';
+import { INIT_ROTATE_VALUE } from '^/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +19,6 @@ export default function App() {
   const [imageURI, setImageURI] = useState<string | undefined>(undefined);
 
   const [isShowControlPanel, setIsShowControlPanel] = useState<boolean>(false);
-  const [zoomValue, setZoomValue] = useState<number>(INIT_ZOOM_VALUE);
   const [rotateValue, setRotateValue] = useState<number>(INIT_ROTATE_VALUE);
 
   const pickAndGetImageURI = async () => {
@@ -44,7 +43,6 @@ export default function App() {
     }
 
     setIsShowControlPanel(!isShowControlPanel);
-    setZoomValue(INIT_ZOOM_VALUE);
     setRotateValue(INIT_ROTATE_VALUE);
     setImageURI(imageURI);
   };
@@ -60,16 +58,10 @@ export default function App() {
         setIsShowControlPanel(!isShowControlPanel);
       }}
     >
-      <ImageContainer
-        imageURI={imageURI}
-        zoom={zoomValue}
-        rotate={rotateValue}
-      />
+      <ImageContainer imageURI={imageURI} rotate={rotateValue} />
       <ControlPanelOverlay
         isShowControlPanel={isShowControlPanel}
-        zoomValue={zoomValue}
         rotateValue={rotateValue}
-        onZoomChange={setZoomValue}
         onRotateChange={setRotateValue}
         onLoadAnotherImage={loadAnotherImage}
       />
