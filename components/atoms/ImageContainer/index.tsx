@@ -29,7 +29,7 @@ interface Props {
 export default function ImageContainer({ imageURI, rotate }: Props) {
   const pan = useRef(new Animated.ValueXY()).current;
   const recentDist = useRef(new Animated.Value(-1)).current;
-  const zoom = useRef(new Animated.Value(100)).current;
+  const zoom = useRef(new Animated.Value(1)).current;
 
   const panResponder = useRef(
     PanResponder.create({
@@ -72,8 +72,11 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
                 const zoomInteger = ConvertAnimatedValueToNumber(zoom);
                 zoom.setValue(
                   Math.min(
-                    Math.max(50, zoomInteger + dist - recentDistInteger),
-                    800
+                    Math.max(
+                      0.5,
+                      zoomInteger + (dist - recentDistInteger) / 100
+                    ),
+                    15
                   )
                 );
               }
@@ -99,7 +102,7 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
         transform: [
           { translateX: pan.x },
           { translateY: pan.y },
-          { scale: ConvertAnimatedValueToNumber(zoom) / 100 },
+          { scale: zoom },
         ],
       }}
     >
