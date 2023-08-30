@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Image, Text, StyleSheet, PanResponder, Animated } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -26,18 +26,21 @@ interface Props {
 
 export default function ImageContainer({ imageURI, rotate }: Props) {
   const pan = useRef(new Animated.ValueXY()).current;
-  const [zoom, setZoom] = useState<number>(100);
+  const recentDist = useRef(new Animated.Value(-1)).current;
+  const zoom = useRef(new Animated.Value(100)).current;
+
   const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
-      onPanResponderMove: (event, { dx, dy, numberActiveTouches, vx, vy }) => {
+      onPanResponderMove: (event, { dx, dy, numberActiveTouches }) => {
         switch (numberActiveTouches) {
           case 1:
             pan.setValue({
               x: dx,
               y: dy,
             });
+            recentDist.setValue(-1);
             break;
           case 2:
             {
@@ -60,10 +63,25 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
               const dist = Math.sqrt(
                 right * right - left * left + bottom * bottom - top * top
               );
-              setZoom(dist);
+
+              const recentDistInteger = Number.parseInt(
+                JSON.stringify(recentDist),
+                10
+              );
+              if (recentDistInteger > 0) {
+                const zoomInteger = Number.parseInt(JSON.stringify(zoom), 10);
+                zoom.setValue(
+                  Math.min(
+                    Math.max(50, zoomInteger + dist - recentDistInteger),
+                    800
+                  )
+                );
+              }
+              recentDist.setValue(dist);
             }
             break;
           default:
+            recentDist.setValue(-1);
             break;
         }
       },
@@ -85,7 +103,10 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
         source={{ uri: imageURI }}
         style={{
           ...styles.image,
-          transform: [{ scale: zoom / 100 }, { rotate: `${rotate}deg` }],
+          transform: [
+            { scale: Number.parseInt(JSON.stringify(zoom), 10) / 100 },
+            { rotate: `${rotate}deg` },
+          ],
         }}
       />
     </Animated.View>
