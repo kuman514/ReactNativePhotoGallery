@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 import { Image, Text, StyleSheet, PanResponder, Animated } from 'react-native';
 
+import { ConvertAnimatedValueToNumber } from '^/utils';
+
 const styles = StyleSheet.create({
   container: {
     width: '100%',
@@ -64,12 +66,10 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
                 right * right - left * left + bottom * bottom - top * top
               );
 
-              const recentDistInteger = Number.parseInt(
-                JSON.stringify(recentDist),
-                10
-              );
+              const recentDistInteger =
+                ConvertAnimatedValueToNumber(recentDist);
               if (recentDistInteger > 0) {
-                const zoomInteger = Number.parseInt(JSON.stringify(zoom), 10);
+                const zoomInteger = ConvertAnimatedValueToNumber(zoom);
                 zoom.setValue(
                   Math.min(
                     Math.max(50, zoomInteger + dist - recentDistInteger),
@@ -96,17 +96,18 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
       {...panResponder.panHandlers}
       style={{
         ...styles.container,
-        transform: [{ translateX: pan.x }, { translateY: pan.y }],
+        transform: [
+          { translateX: pan.x },
+          { translateY: pan.y },
+          { scale: ConvertAnimatedValueToNumber(zoom) / 100 },
+        ],
       }}
     >
       <Image
         source={{ uri: imageURI }}
         style={{
           ...styles.image,
-          transform: [
-            { scale: Number.parseInt(JSON.stringify(zoom), 10) / 100 },
-            { rotate: `${rotate}deg` },
-          ],
+          transform: [{ rotate: `${rotate}deg` }],
         }}
       />
     </Animated.View>
