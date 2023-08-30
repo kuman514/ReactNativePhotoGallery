@@ -66,16 +66,12 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
                 right * right - left * left + bottom * bottom - top * top
               );
 
-              const recentDistInteger =
-                ConvertAnimatedValueToNumber(recentDist);
-              if (recentDistInteger > 0) {
-                const zoomInteger = ConvertAnimatedValueToNumber(zoom);
+              const recentDistParsed = ConvertAnimatedValueToNumber(recentDist);
+              if (recentDistParsed > 0) {
+                const zoomParsed = ConvertAnimatedValueToNumber(zoom);
                 zoom.setValue(
                   Math.min(
-                    Math.max(
-                      0.5,
-                      zoomInteger + (dist - recentDistInteger) / 100
-                    ),
+                    Math.max(0.5, zoomParsed + (dist - recentDistParsed) / 100),
                     15
                   )
                 );
