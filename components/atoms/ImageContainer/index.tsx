@@ -36,53 +36,49 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderMove: (event, { dx, dy, numberActiveTouches }) => {
-        switch (numberActiveTouches) {
-          case 1:
-            pan.setValue({
-              x: dx,
-              y: dy,
-            });
-            recentDist.setValue(-1);
-            break;
-          case 2:
-            {
-              const left = Math.min(
-                event.nativeEvent.touches[0].pageX,
-                event.nativeEvent.touches[1].pageX
-              );
-              const right = Math.max(
-                event.nativeEvent.touches[0].pageX,
-                event.nativeEvent.touches[1].pageX
-              );
-              const top = Math.min(
-                event.nativeEvent.touches[0].pageY,
-                event.nativeEvent.touches[1].pageY
-              );
-              const bottom = Math.max(
-                event.nativeEvent.touches[0].pageY,
-                event.nativeEvent.touches[1].pageY
-              );
-              const dist = Math.sqrt(
-                right * right - left * left + bottom * bottom - top * top
-              );
+        pan.setValue({
+          x: dx,
+          y: dy,
+        });
 
-              const recentDistParsed = ConvertAnimatedValueToNumber(recentDist);
-              if (recentDistParsed > 0) {
-                const zoomParsed = ConvertAnimatedValueToNumber(zoom);
-                zoom.setValue(
-                  Math.min(
-                    Math.max(0.5, zoomParsed + (dist - recentDistParsed) / 100),
-                    15
-                  )
+        const recentDistToSet =
+          numberActiveTouches === 2
+            ? (() => {
+                const firstPageX = event.nativeEvent.touches[0].pageX;
+                const firstPageY = event.nativeEvent.touches[0].pageY;
+                const secondPageX = event.nativeEvent.touches[1].pageX;
+                const secondPageY = event.nativeEvent.touches[1].pageY;
+
+                const left = Math.min(firstPageX, secondPageX);
+                const right = Math.max(firstPageX, secondPageX);
+                const top = Math.min(firstPageY, secondPageY);
+                const bottom = Math.max(firstPageY, secondPageY);
+
+                const horizontalDist = right - left;
+                const verticalDist = bottom - top;
+
+                const dist = Math.sqrt(
+                  horizontalDist * horizontalDist + verticalDist * verticalDist
                 );
-              }
-              recentDist.setValue(dist);
-            }
-            break;
-          default:
-            recentDist.setValue(-1);
-            break;
-        }
+
+                const recentDistParsed =
+                  ConvertAnimatedValueToNumber(recentDist);
+                if (recentDistParsed > 0) {
+                  const zoomParsed = ConvertAnimatedValueToNumber(zoom);
+                  zoom.setValue(
+                    Math.min(
+                      Math.max(
+                        0.5,
+                        zoomParsed + (dist - recentDistParsed) / 100
+                      ),
+                      15
+                    )
+                  );
+                }
+                return dist;
+              })()
+            : -1;
+        recentDist.setValue(recentDistToSet);
       },
       onPanResponderRelease: () => {
         pan.extractOffset();
