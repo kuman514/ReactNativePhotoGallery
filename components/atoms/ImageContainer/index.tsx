@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Image, Text, StyleSheet, PanResponder, Animated } from 'react-native';
 
 import { ConvertAnimatedValueToNumber } from '^/utils';
@@ -89,6 +89,18 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
       },
     })
   ).current;
+
+  /**
+   * This is to reset all values on change of image URI
+   */
+  useEffect(() => {
+    pan.flattenOffset();
+    pan.setValue({
+      x: 0,
+      y: 0,
+    });
+    zoom.setValue(1);
+  }, [imageURI]);
 
   return imageURI !== undefined ? (
     <Animated.View
