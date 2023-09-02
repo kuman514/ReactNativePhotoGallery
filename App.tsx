@@ -53,7 +53,6 @@ export default function App() {
       onTouchEnd={() => {
         if (imageURI === undefined) {
           pickImage();
-          return;
         }
       }}
     >

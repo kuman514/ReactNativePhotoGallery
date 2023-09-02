@@ -45,8 +45,10 @@ export default function ImageContainer({ imageURI, rotate, onTap }: Props) {
 
   const panResponder = useRef(
     PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponderCapture: () => true,
+      onMoveShouldSetPanResponder: (_, { dx, dy }) =>
+        Math.abs(dx) > 5 || Math.abs(dy) > 5,
+      onMoveShouldSetPanResponderCapture: (_, { dx, dy }) =>
+        Math.abs(dx) > 5 || Math.abs(dy) > 5,
       onPanResponderMove: (event, { dx, dy, numberActiveTouches }) => {
         pan.setValue({
           x: dx,
