@@ -43,7 +43,6 @@ export default function UIPanelSlider({
       </Text>
       <Slider
         style={styles.slider}
-        allowTouchTrack
         value={value}
         minimumValue={minimum}
         maximumValue={maximum}
