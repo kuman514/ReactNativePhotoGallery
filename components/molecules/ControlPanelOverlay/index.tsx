@@ -71,8 +71,8 @@ export default function ControlPanelOverlay({
         <UIPanelSlider
           label="Rotate"
           value={rotateValue}
-          minimum={0}
-          maximum={360}
+          minimum={-180}
+          maximum={180}
           onValueChange={onRotateChange}
         />
       </View>
