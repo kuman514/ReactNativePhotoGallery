@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
+    pointerEvents: 'box-none',
   },
   upperPart: {
     backgroundColor: 'rgba(0, 0, 0, 0.7)',

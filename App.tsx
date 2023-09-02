@@ -55,10 +55,13 @@ export default function App() {
           pickImage();
           return;
         }
-        setIsShowControlPanel(!isShowControlPanel);
       }}
     >
-      <ImageContainer imageURI={imageURI} rotate={rotateValue} />
+      <ImageContainer
+        onTap={() => setIsShowControlPanel(!isShowControlPanel)}
+        imageURI={imageURI}
+        rotate={rotateValue}
+      />
       <ControlPanelOverlay
         isShowControlPanel={isShowControlPanel}
         rotateValue={rotateValue}

@@ -1,5 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { Image, Text, StyleSheet, PanResponder, Animated } from 'react-native';
+import {
+  Image,
+  Text,
+  StyleSheet,
+  PanResponder,
+  Animated,
+  TouchableWithoutFeedback,
+} from 'react-native';
 
 import { ConvertAnimatedValueToNumber } from '^/utils';
 
@@ -10,6 +17,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  tapPanel: {
+    width: '100%',
+    height: '100%',
   },
   image: {
     width: '100%',
@@ -24,9 +35,10 @@ const styles = StyleSheet.create({
 interface Props {
   rotate: number;
   imageURI?: string;
+  onTap(): void;
 }
 
-export default function ImageContainer({ imageURI, rotate }: Props) {
+export default function ImageContainer({ imageURI, rotate, onTap }: Props) {
   const pan = useRef(new Animated.ValueXY()).current;
   const recentDist = useRef(new Animated.Value(-1)).current;
   const zoom = useRef(new Animated.Value(1)).current;
@@ -110,13 +122,15 @@ export default function ImageContainer({ imageURI, rotate }: Props) {
         ],
       }}
     >
-      <Image
-        source={{ uri: imageURI }}
-        style={{
-          ...styles.image,
-          transform: [{ rotate: `${rotate}deg` }],
-        }}
-      />
+      <TouchableWithoutFeedback style={styles.tapPanel} onPress={onTap}>
+        <Image
+          source={{ uri: imageURI }}
+          style={{
+            ...styles.image,
+            transform: [{ rotate: `${rotate}deg` }],
+          }}
+        />
+      </TouchableWithoutFeedback>
     </Animated.View>
   ) : (
     <Text style={styles.emptyText}>Touch to load an image.</Text>
