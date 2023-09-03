@@ -1,10 +1,13 @@
 import * as ImagePicker from 'expo-image-picker';
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View, LogBox } from 'react-native';
 
 import ImageContainer from '^/components/atoms/ImageContainer';
 import ControlPanelOverlay from '^/components/molecules/ControlPanelOverlay';
 import { INIT_ROTATE_VALUE } from '^/constants';
+
+LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 const styles = StyleSheet.create({
   container: {
@@ -46,6 +49,10 @@ export default function App() {
     setRotateValue(INIT_ROTATE_VALUE);
     setImageURI(imageURI);
   };
+
+  useEffect(() => {
+    ScreenOrientation.unlockAsync();
+  }, []);
 
   return (
     <View
