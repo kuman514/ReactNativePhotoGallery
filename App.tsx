@@ -1,7 +1,7 @@
 import * as ImagePicker from 'expo-image-picker';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View, LogBox } from 'react-native';
+import { StyleSheet, View, LogBox, Platform, StatusBar } from 'react-native';
 
 import ImageContainer from '^/components/atoms/ImageContainer';
 import ControlPanelOverlay from '^/components/molecules/ControlPanelOverlay';
@@ -54,6 +54,14 @@ export default function App() {
     ScreenOrientation.unlockAsync();
   }, []);
 
+  /**
+   * Android has some issues where black bar happens with hidden StatusBar.
+   * So, I had to apply the hidden StatusBar for iOS first,
+   * and then apply alternative way to hide StatusBar for Android.
+   */
+  const isStatusBarHiddenForIos =
+    Platform.OS === 'ios' && !isShowControlPanel && imageURI !== undefined;
+
   return (
     <View
       style={styles.container}
@@ -63,6 +71,7 @@ export default function App() {
         }
       }}
     >
+      <StatusBar hidden={isStatusBarHiddenForIos} />
       <ImageContainer
         onTap={() => setIsShowControlPanel(!isShowControlPanel)}
         imageURI={imageURI}
