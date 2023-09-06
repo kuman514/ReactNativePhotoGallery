@@ -3,7 +3,6 @@
     "name": "react-native-photo-gallery",
     "slug": "react-native-photo-gallery",
     "version": "1.0.0",
-    "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -33,12 +32,6 @@
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you see and edit them."
-        }
-      ],
-      [
-        "expo-screen-orientation",
-        {
-          "initialOrientation": "DEFAULT"
         }
       ]
     ],
