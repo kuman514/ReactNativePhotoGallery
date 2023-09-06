@@ -21,6 +21,12 @@ export default function App() {
   const [imageURI, setImageURI] = useState<string | undefined>(undefined);
 
   const [isShowControlPanel, setIsShowControlPanel] = useState<boolean>(false);
+
+  /**
+   * We need to backlog implementing rotate on pinch,
+   * because of too high difficulty of most natural rotate interaction.
+   * We will need to research more of PanResponderGestureState and how to detect rotation.
+   */
   const [rotateValue, setRotateValue] = useState<number>(INIT_ROTATE_VALUE);
 
   const pickAndGetImageURI = async () => {
