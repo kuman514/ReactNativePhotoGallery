@@ -1,6 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import * as ScreenOrientation from 'expo-screen-orientation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StyleSheet, View, LogBox, Platform, StatusBar } from 'react-native';
 
 import ImageContainer from '^/components/atoms/ImageContainer';
@@ -49,10 +48,6 @@ export default function App() {
     setRotateValue(INIT_ROTATE_VALUE);
     setImageURI(imageURI);
   };
-
-  useEffect(() => {
-    ScreenOrientation.unlockAsync();
-  }, []);
 
   /**
    * Android has some issues where black bar happens with hidden StatusBar.
